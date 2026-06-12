@@ -63,3 +63,17 @@ class CampaignAPITests(APITestCase):
 
         self.assertEqual(delete_response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertFalse(Campaign.objects.filter(pk=campaign_id).exists())
+
+    def test_negative_spend_is_rejected(self):
+        response = self.client.post(
+            reverse("campaign-list"),
+            {
+                "name": "Google Ads",
+                "budget": "1000.00",
+                "spend": "-1.00",
+            },
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("spend", response.data)

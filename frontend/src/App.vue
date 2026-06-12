@@ -29,6 +29,20 @@ function formatCurrency(value) {
   }).format(Number(value))
 }
 
+function formatApiError(data) {
+  if (typeof data === 'string') {
+    return data
+  }
+
+  if (!data || typeof data !== 'object') {
+    return 'Something went wrong'
+  }
+
+  return Object.entries(data)
+    .map(([field, messages]) => `${field}: ${[].concat(messages).join(' ')}`)
+    .join(' — ')
+}
+
 function resetForm() {
   form.id = null
   form.name = ''
@@ -61,7 +75,10 @@ async function saveCampaign() {
   const payload = {
     name: form.name,
     budget: form.budget,
-    spend: form.spend,
+  }
+
+  if (form.spend !== '') {
+    payload.spend = form.spend
   }
 
   const url = isEditing.value ? `${API_URL}${form.id}/` : API_URL
@@ -76,7 +93,7 @@ async function saveCampaign() {
 
     if (!response.ok) {
       const data = await response.json()
-      throw new Error(JSON.stringify(data))
+      throw new Error(formatApiError(data))
     }
 
     resetForm()
@@ -141,7 +158,7 @@ onMounted(loadCampaigns)
 
         <label>
           Spend
-          <input v-model="form.spend" required type="number" min="0" step="0.01" placeholder="0.00" />
+          <input v-model="form.spend" type="number" min="0" step="0.01" placeholder="0.00" />
         </label>
 
         <div class="form-actions">
