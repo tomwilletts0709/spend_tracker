@@ -17,26 +17,41 @@ The app lets account managers add campaigns and view their budget, spend, and cu
 - View campaigns in a table
 - Edit or delete campaigns
 - Automatically calculated status:
-  - `On track`: spend is below 90% of budget
-  - `At risk`: spend is at least 90% of budget
+  - `On track`: spend is below 90% of budget. This can be altered dependent on what the account team deems to be "risky"
+  - `At risk`: spend is at least 90% of budget. As above for altering threshold based on domain experience. 
   - `Overspent`: spend is greater than budget
 
 Status is derived from budget and spend rather than stored in the database, avoiding duplicated state that could become stale.
 
-## Running with Docker
 
-Prerequisite: Docker Desktop or Docker Engine with Docker Compose.
+## Design notes
+
+The brief asked for a minimal app, so the implementation intentionally avoids extra product features such as pacing, charts, ad platform integrations, authentication, or alerting.
+
+A few possible future improvements:
+
+- Campaign start/end dates and pacing calculations.
+- Spend history snapshots and charts.
+- Client/account manager user permissions.
+- Alert Notifications when campaigns become at risk or overspent.
+- Integration with ad platform APIs (Google Ads, Meta, TikTok etc).
+- Tests for model status rules and API validation.
+- Month-on-month spend differences. 
+- Year-on-year spend differences. 
+- Client-specific trackers. 
+- Forecasting spend at specific rates. 
+- Forecasting performance metrics from spends. 
+
+## Development note
+
+This project uses Django/DRF conventions: models for persisted data, serializers for validation/input-output shaping, and viewsets for CRUD endpoints. The frontend is a small Vue single-page app consuming the Django API.
+
+## Running with Docker
 
 From the project root:
 
 ```bash
 docker compose up --build
-```
-
-If your Docker installation uses the older Compose command, run:
-
-```bash
-docker-compose up --build
 ```
 
 Then open:
@@ -51,9 +66,7 @@ The backend API is available at:
 http://localhost:8000/api/campaigns/
 ```
 
-The backend container runs migrations automatically on startup, then serves the Django API with Gunicorn.
-
-Campaign data is stored in a Docker-managed SQLite volume, so data survives container restarts/rebuilds unless the volume is removed.
+The backend container runs migrations automatically on startup.
 
 ## Running locally without Docker
 
@@ -95,14 +108,6 @@ http://localhost:5173
 
 The frontend proxies `/api` requests to Django at `http://127.0.0.1:8000` during local development.
 
-## Running tests
-
-From the project root:
-
-```bash
-uv run python manage.py test campaigns
-```
-
 ## API endpoints
 
 Using Django REST Framework viewsets:
@@ -136,21 +141,3 @@ Example response:
   "created_at": "2026-06-11T21:57:28.458034Z"
 }
 ```
-
-## Design notes
-
-The brief asked for a minimal app, so the implementation intentionally avoids extra product features such as pacing, charts, ad platform integrations, authentication, or alerting.
-
-A few possible future improvements:
-
-- Campaign start/end dates and pacing calculations
-- Spend history snapshots and charts
-- Client/account manager user permissions
-- Alerts when campaigns become at risk or overspent
-- Integration with ad platform APIs
-- Broader API and frontend test coverage
-
-## Development note
-
-This project uses Django/DRF conventions: models for persisted data, serializers for validation/input-output shaping, and viewsets for CRUD endpoints. The frontend is a small Vue single-page app consuming the Django API.
-# spend_tracker
