@@ -4,48 +4,6 @@ A minimal full-stack campaign budget tracking tool built for the Brainlabs techn
 
 The app lets account managers add campaigns and view their budget, spend, and current status in a simple single-page UI.
 
-## Tech stack
-
-- Backend: Django + Django REST Framework
-- Frontend: Vue 3 + Vite
-- Database: SQLite
-- Containerisation: Docker Compose
-
-## Features
-
-- Add campaigns with name, budget, and spend
-- View campaigns in a table
-- Edit or delete campaigns
-- Automatically calculated status:
-  - `On track`: spend is below 90% of budget. This can be altered dependent on what the account team deems to be "risky"
-  - `At risk`: spend is at least 90% of budget. As above for altering threshold based on domain experience. 
-  - `Overspent`: spend is greater than budget
-
-Status is derived from budget and spend rather than stored in the database, avoiding duplicated state that could become stale.
-
-
-## Design notes
-
-The brief asked for a minimal app, so the implementation intentionally avoids extra product features such as pacing, charts, ad platform integrations, authentication, or alerting.
-
-A few possible future improvements:
-
-- Campaign start/end dates and pacing calculations.
-- Spend history snapshots and charts.
-- Client/account manager user permissions.
-- Alert Notifications when campaigns become at risk or overspent.
-- Integration with ad platform APIs (Google Ads, Meta, TikTok etc).
-- Tests for model status rules and API validation.
-- Month-on-month spend differences. 
-- Year-on-year spend differences. 
-- Client-specific trackers. 
-- Forecasting spend at specific rates. 
-- Forecasting performance metrics from spends. 
-
-## Development note
-
-This project uses Django/DRF conventions: models for persisted data, serializers for validation/input-output shaping, and viewsets for CRUD endpoints. The frontend is a small Vue single-page app consuming the Django API.
-
 ## Running with Docker
 
 From the project root:
@@ -141,3 +99,47 @@ Example response:
   "created_at": "2026-06-11T21:57:28.458034Z"
 }
 ```
+
+
+## Tech stack
+
+- Backend: Django + Django REST Framework
+- Frontend: Vue 3 + Vite
+- Database: SQLite
+- Containerisation: Docker Compose
+
+## Features
+
+- Add campaigns with name, budget, and spend
+- View campaigns in a table
+- Edit or delete campaigns
+- Automatically calculated status:
+  - `On track`: spend is below 90% of budget. This can be altered dependent on what the account team deems to be "risky"
+  - `At risk`: spend is at least 90% of budget. As above for altering threshold based on domain experience. 
+  - `Overspent`: spend is greater than budget
+
+Status is derived from budget and spend rather than stored in the database, avoiding duplicated state that could become stale.
+
+
+## Design notes
+
+The brief asked for a minimal app, so the implementation intentionally avoids extra product features such as pacing, charts, ad platform integrations, authentication, or alerting.
+
+A few possible future improvements:
+
+- Campaign start/end dates and pacing calculations.
+- Spend history snapshots and charts.
+- Client/account manager user permissions.
+- Alert Notifications when campaigns become at risk or overspent.
+- Integration with ad platform APIs (Google Ads, Meta, TikTok etc).
+- Expand on tests for model status rules and API validation.
+- Month-on-month spend differences. 
+- Year-on-year spend differences. 
+- Client-specific trackers. i 
+- Forecasting spend at specific rates. 
+- Forecasting performance metrics from spends. 
+
+## Development note
+
+This project uses Django/DRF conventions: models for persisted data, serializers for validation/input-output shaping, and viewsets for CRUD endpoints. The frontend is a small Vue single-page app consuming the Django API.
+
