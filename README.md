@@ -4,6 +4,8 @@ A minimal full-stack campaign budget tracking tool.
 
 The app lets account managers add campaigns and view their budget, spend, and current status in a simple single-page UI.
 
+Backend accessed via campaigns and config.
+
 ## Running with Docker
 
 From the project root:
@@ -140,11 +142,10 @@ A few possible future improvements:
 - Expand on tests for model status rules and API validation.
 - Month-on-month spend differences. 
 - Year-on-year spend differences. 
-- Client-specific trackers. i 
+- Client-specific trackers.
 - Forecasting spend at specific rates. 
 - Forecasting performance metrics from spends. 
 
 ## Development note
 
 This project uses Django/DRF conventions: models for persisted data, serializers for validation/input-output shaping, and viewsets for CRUD endpoints. The frontend is a small Vue single-page app consuming the Django API.
-
