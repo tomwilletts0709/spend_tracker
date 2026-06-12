@@ -1,6 +1,6 @@
 # Campaign Budget Tracker
 
-A minimal full-stack campaign budget tracking tool built for the Brainlabs technical task.
+A minimal full-stack campaign budget tracking tool.
 
 The app lets account managers add campaigns and view their budget, spend, and current status in a simple single-page UI.
 
@@ -46,6 +46,12 @@ Start Django:
 
 ```bash
 uv run python manage.py runserver
+```
+
+Run tests:
+
+```bash
+uv run python manage.py test
 ```
 
 ### Frontend
@@ -99,7 +105,6 @@ Example response:
   "created_at": "2026-06-11T21:57:28.458034Z"
 }
 ```
-
 
 ## Tech stack
 
